@@ -12,7 +12,7 @@ What was the effect of graduating during the COVID-19 economic downturn on the s
 
 ## Software Information
 This project is written in **Python 3**. To run the code, I must have the following packages installed:
-* 'pandas"
+* 'pandas'
 * 'openpyxl'
 
 ## How to Run the Project
