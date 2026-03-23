@@ -1,0 +1,24 @@
+Study_Area,Salary_18,Salary_20,FTE_18,FTE_20,Salary_Diff,FTE_Diff
+Science and mathematics,61000,64000.0,64.6,59.1,3000.0,-5.5
+Computing and Information Systems,60000,65000.0,73.2,72.1,5000.0,-1.1
+Engineering,65000,69500.0,83.1,83.0,4500.0,-0.1
+Architecture and built environment,58700,64700.0,77.7,67.7,6000.0,-10.0
+Agriculture and environmental studies,58300,61500.0,68.3,67.4,3200.0,-0.9
+Health services and support,62600,65100.0,72.4,67.2,2500.0,-5.2
+Medicine,73000,75000.0,94.9,86.7,2000.0,-8.2
+Nursing,61600,64200.0,78.7,72.7,2600.0,-6.0
+Pharmacy,47000,49600.0,97.2,96.4,2600.0,-0.8
+Dentistry,83700,84000.0,86.8,80.0,300.0,-6.8
+Veterinary science,55000,57800.0,84.7,78.2,2800.0,-6.5
+Rehabilitation,62600,65000.0,89.3,87.3,2400.0,-2.0
+Teacher education,65500,70000.0,83.3,80.6,4500.0,-2.7
+Business and management,58000,60000.0,77.9,74.3,2000.0,-3.6
+"Humanities, culture and social sciences",58400,62600.0,64.3,60.9,4200.0,-3.4
+Social work,65600,70000.0,73.5,67.2,4400.0,-6.3
+Psychology,60000,63000.0,64.5,61.4,3000.0,-3.1
+Law and paralegal studies,61400,65000.0,77.2,75.7,3600.0,-1.5
+Creative arts,50100,52000.0,52.2,45.8,1900.0,-6.4
+Communications,52800,55600.0,60.5,52.8,2800.0,-7.7
+"Tourism, Hospitality, Personal Services, Sport and recreation",53500,53500.0,59.6,52.4,0.0,-7.2
+All,61000,64700.0,72.9,68.7,3700.0,-4.2
+Standard deviation,7800,7800.0,11.9,12.8,0.0,0.9
