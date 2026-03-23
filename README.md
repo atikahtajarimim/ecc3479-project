@@ -5,13 +5,23 @@
 ## Research Question 
 What was the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018? 
 
-## Expected Data Sources
-This project utilizes secondary survey data from the **Quality Indicators for Learning and Teaching (QILT)**, specifically the **Graduate Outcomes Survey (GOS)**.
+## Repository Structure
+* **code/**: Contains 'data_analysis.py' (the script used to transform and merge raw data).
+* **data/raw/**: Contains the original QILT GOS Excel files for 2018 and 2020.
+* **data/clean/**: Contains 'final_pandemic_research_data.csv' (the merged dataset ready for analysis).
 
-The analysis relies on: 
-1. **2018 GOS National Report Tables:** Used as the pre-COVID baseline.
-2. **2020 GOS National Report Tables:** Used to capture labour market outcomes during the COVID-19 shock.
+## Software Information
+This project is written in **Python 3**. To run the code, I must have the following packages installed:
+* 'pandas"
+* 'openpyxl'
 
-## Group Members
-* Nur Atikah Binti Mohamad Tajarimim
-* Madeeha Binti Muhamad Subki
+## How to Run the Project
+1. **Clone** this repository to my machine.
+2. **Install dependencies**: Run 'pip install -r requirements.txt'.
+3. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
+4. **Execute**: Run the script using the command: 'python code/data_analysis.py'.
+
+## Data Codebook
+* **Study_Area**: Field of study (e.g., Engineering, Nursing).
+* **Salary_Diff**: The change in median salary between 2018 and 2020 ($).
+* **FTE_Diff**: The change in Full-Time Employment rate percentage points. 
