@@ -16,10 +16,14 @@ This project is written in **Python 3**. To run the code, I must have the follow
 * 'openpyxl'
 
 ## How to run the Project
-1. **Clone** this repository to my machine.
-2. **Install dependencies**: Run 'pip install -r requirements.txt'.
+1. **Clone this repository** to your machine.
+2. **Install dependencies**: Run 
+```bash
+pip install -r requirements.txt
 3. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
-4. **Execute**: Run the script using the command: 'python code/data_analysis.py'.
+4. **Execute**: Run the script using the command: 
+```bash
+python code/data_analysis.py
 
 ## Data Codebook
 * **Study_Area**: Field of study (e.g., Engineering, Nursing).
