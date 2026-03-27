@@ -22,7 +22,7 @@ This project is written in **Python 3**. To run the code, I must have the follow
    cd ecc3479-project
 4. **Install dependencies**: Run
    ```bash
-   python3 -m pip install -r requirements.txt
+   python3 -m pip install -r requirements.txt.
 6. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
 7. **Execute**: Run the script using the command:
    ```bash
