@@ -18,10 +18,15 @@ This project is written in **Python 3**. To run the code, I must have the follow
 ## How to Run the Project
 1. **Clone this repository** to your machine.
 2. **Enter the Folder**:
-   ```bash cd ecc3479-project
-4. **Install dependencies**: Run 'python3 -m pip install -r requirements.txt'.
-5. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
-6. **Execute**: Run the script using the command: 'python3 code/data_analysis.py'.
+   ```bash
+   cd ecc3479-project
+4. **Install dependencies**: Run
+   ```bash
+   python3 -m pip install -r requirements.txt
+6. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
+7. **Execute**: Run the script using the command:
+   ```bash
+   python3 code/data_analysis.py
 
 ## Data Codebook
 * **Study_Area**: Field of study (e.g., Engineering, Nursing).
