@@ -3,7 +3,7 @@
 # Impact of COVID-19 on Australian Graduate Outcomes
 
 ## Research Question 
-Whatwas the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018? 
+What was the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018? 
 
 ## Repository Structure
 * **code/**: Contains 'data_analysis.py' (the script used to transform and merge raw data). 
@@ -17,14 +17,19 @@ This project is written in **Python 3**. To run the code, I must have the follow
 
 ## How to run the Project
 1. **Clone this repository** to your machine.
-2. **Install dependencies**: Run 
+2. Enter the Folder: 
+```bash
+cd ecc3479-project
+```
+3. **Install dependencies**: Run 
 ```bash
 pip install -r requirements.txt
-3. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
-4. **Execute**: Run the script using the command: 
+```
+4. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
+5. **Execute**: Run the script using the command: 
 ```bash
 python code/data_analysis.py
-
+```
 ## Data Codebook
 * **Study_Area**: Field of study (e.g., Engineering, Nursing).
 * **Salary_Diff**: The change in median salary between 2018 and 2020 ($).
