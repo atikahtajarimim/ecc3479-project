@@ -27,6 +27,7 @@ This project is written in **Python 3**. To run the code, I must have the follow
 7. **Execute**: Run the script using the command:
    ```bash
    python3 code/data_analysis.py
+```
 
 ## Data Codebook
 * **Study_Area**: Field of study (e.g., Engineering, Nursing).
