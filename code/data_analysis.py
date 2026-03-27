@@ -1,5 +1,9 @@
 import pandas as pd
 
+# ADD THESE TWO LINES HERE:
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+
 # Define the file paths based on your raw folder
 file_2018 = "data/raw/2018-GOS-National-Report-Tables-xlsx.xlsx"
 file_2020 = "data/raw/GOS-2020-National-Tables.xlsx"
