@@ -1,121 +1,88 @@
 import pandas as pd
+import os
 
-# ADD THESE TWO LINES HERE:
+# 1. Professional Display Settings
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
+pd.set_option('display.width', 1000)
 
-# Define the file paths based on your raw folder
+# 2. Define file paths
 file_2018 = "data/raw/2018-GOS-National-Report-Tables-xlsx.xlsx"
 file_2020 = "data/raw/GOS-2020-National-Tables.xlsx"
 
-def load_data():
-    print( "--- Starting Data Load ---" )
-    # Reading 2018 Salary Table (Table 35) 
-    try: 
-        df_2018 = pd.read_excel(file_2018, sheet_name='Table35' , skiprows=1) 
-        print("✅ 2018 Salary Data Loaded!")
-        # Show first 5 rows to confirm it looks right
-        print (df_2018.head())
-    except Exception as e:
-        print(f"❌ Error loading 2018 data: {e}")
+def load_and_standardize(file, possible_sheets, value_col, new_value_name):
+    """
+    Loads a sheet, finds the first column, renames it, and cleans numeric values.
+    """
+    xls = pd.ExcelFile(file)
+    target_sheet = next((s for s in possible_sheets if s in xls.sheet_names), None)
+    
+    if not target_sheet:
+        raise ValueError(f"Could not find sheets {possible_sheets} in {file}")
         
-    # Reading 2020 Salary Table (SAL_UG_ALL_2Y_AREA_SEX)
-    try:
-        df_2020 = pd.read_excel(file_2020, sheet_name='SAL_UG_ALL_2Y_AREA_SEX' , skiprows=1)
-        print( "\n✅ 2020 Salary Data Loaded!" )
-        print(df_2020.head())
-    except Exception as e: 
-        print(f"❌ Error loading 2020 data: {e}")
-
-if __name__ == "__main__":
-    load_data()
-
-import pandas as pd
-
-# File paths
-file_2018 = "data/raw/2018-GOS-National-Report-Tables-xlsx.xlsx"
-file_2020 = "data/raw/GOS-2020-National-Tables.xlsx"
-
-def run_clean_analysis():
-    # 1. Process 2018 - Grab only the 'Total' column
-    df_18 = pd.read_excel(file_2018, sheet_name='Table35', skiprows=1)
-    df_18 = df_18[['Unnamed: 0', 'Total 2018']].dropna()
-    df_18.columns = [ 'Study_Area', 'Salary_2018' ] 
-
-    # 2. Process 2020 - Grabbing only the 'Total' column
-    df_20 = pd.read_excel(file_2020, sheet_name='SAL_UG_ALL_2Y_AREA_SEX', skiprows=1)
-    df_20 = df_20[[ 'Unnamed: 0', 'Total 2020' ]].dropna()
-    df_20.columns = [ 'Study_Area', 'Salary_2020' ]
-
-    # 3. Merge and calculate
-    merged = pd.merge(df_18, df_20, on='Study_Area')
-    merged[ 'Dollar_Diff' ] = merged[ 'Salary_2020' ] - merged[ 'Salary_2018' ]
-
-    # 4. Filter for your 3 target industries for the report
-    target_areas = [ 'Engineering', 'Nursing', 'Creative arts' ]
-    deep_dive = merged[merged[ 'Study_Area' ].str.contains( '|'.join(target_areas), na=False )]
-
-    print( "--- RESEARCH RESULTS: TOTAL PERSONS MEDIAN SALARY ---" )
-    print(merged[[ 'Study_Area', 'Salary_2018', 'Salary_2020', 'Dollar_Diff' ]])
-
-    print( "\n--- DEEP DIVE: KEY INDUSTRIES FOR ANALYSIS ---" )
-    print(deep_dive)
-
-    # Save the final cleaned version
-    merged.to_csv("data/clean/final_total_salary_comparison.csv", index=False) 
-    print( "\n✅ Success! Only 'Total' data is now in  your terminal and saved to your folder." )
-
-if __name__ == "__main__":
-    run_clean_analysis()
-
-import pandas as pd 
-
-file_2018 = "data/raw/2018-GOS-National-Report-Tables-xlsx.xlsx"
-file_2020 = "data/raw/GOS-2020-National-Tables.xlsx"
+    df = pd.read_excel(file, sheet_name=target_sheet, skiprows=1)
+    
+    # Force the first column to be 'Study_Area'
+    first_col = df.columns[0]
+    df = df[[first_col, value_col]].copy()
+    df.columns = ['Study_Area', new_value_name]
+    
+    # Clean text and convert the value column to numeric (handling errors as NaN)
+    df['Study_Area'] = df['Study_Area'].astype(str).str.strip()
+    df[new_value_name] = pd.to_numeric(df[new_value_name], errors='coerce')
+    
+    return df.dropna(subset=['Study_Area'])
 
 def run_final_academic_analysis():
-    print( "--- Final Empirical Analysis: COVID-19 Impact ---" )
+    print("--- Final Empirical Analysis: COVID-19 Impact ---")
+    os.makedirs("data/clean", exist_ok=True)
+    output_path = "data/clean/final_pandemic_research_data.csv"
 
-    # 1. 2018 Data (Baseline)
-    df_18_sal = pd.read_excel(file_2018, sheet_name='Table35', skiprows=1)
-    df_18_sal = df_18_sal[[ 'Unnamed: 0', 'Total 2018' ]].dropna()
-    df_18_sal.columns = [ 'Study_Area', 'Salary_18' ]
+    try:
+        # --- Load all four datasets ---
+        # Baseline 2018
+        df_18_sal = load_and_standardize(file_2018, ['Table35', 'Table 35'], 'Total 2018', 'Salary_18')
+        df_18_emp = load_and_standardize(file_2018, ['Table3', 'Table 3'], 'Full-time employment 2018', 'FTE_18')
 
-    df_18_emp = pd.read_excel(file_2018, sheet_name='Table3', skiprows=1)
-    df_18_emp = df_18_emp[[ 'Unnamed: 0', 'Full-time employment 2018' ]].dropna()
-    df_18_emp.columns = [ 'Study_Area', 'FTE_18' ]
+        # Pandemic 2020
+        df_20_sal = load_and_standardize(file_2020, ['SAL_UG_ALL_2Y_AREA_SEX', 'SAL_UG_ALL_2Y_AREA'], 'Total 2020', 'Salary_20')
+        df_20_emp = load_and_standardize(file_2020, ['EMP_UG_ALL_2Y_AREA', 'EMP_UG_ALL_2Y_AREA_SEX'], 'Full-time employment 2020', 'FTE_20')
 
-    # 2. 2020 Data (Treatment)
-    df_20_sal = pd.read_excel(file_2020, sheet_name='SAL_UG_ALL_2Y_AREA_SEX', skiprows=1)
-    df_20_sal = df_20_sal[[ 'Unnamed: 0', 'Total 2020' ]].dropna()
-    df_20_sal.columns = [ 'Study_Area', 'Salary_20']
+        # --- Perform Merges ---
+        # We use 'reduce' style logic to ensure we don't lose the Salary_18 key
+        dfs = [df_18_sal, df_20_sal, df_18_emp, df_20_emp]
+        merged = dfs[0]
+        for next_df in dfs[1:]:
+            merged = pd.merge(merged, next_df, on='Study_Area', how='inner')
 
-    df_20_emp = pd.read_excel(file_2020, sheet_name='EMP_UG_ALL_2Y_AREA', skiprows=1)
-    df_20_emp = df_20_emp[[ 'Unnamed: 0', 'Full-time employment 2020' ]].dropna()
-    df_20_emp.columns = [ 'Study_Area', 'FTE_20' ] 
+        # --- Calculations (Check if columns exist before calculating) ---
+        if all(col in merged.columns for col in ['Salary_20', 'Salary_18', 'FTE_20', 'FTE_18']):
+            merged['Salary_Diff'] = merged['Salary_20'] - merged['Salary_18']
+            merged['FTE_Diff'] = (merged['FTE_20'] - merged['FTE_18']).round(1)
+        else:
+            raise KeyError(f"Missing columns for calculation. Found: {merged.columns.tolist()}")
 
-    # 3. Merge & Calculate Differences
-    merged = pd.merge(df_18_sal, df_20_sal, on='Study_Area')
-    merged = pd.merge(merged, df_18_emp, on='Study_Area')
-    merged = pd.merge(merged, df_20_emp, on='Study_Area') 
+        # --- Filter for Research Goals ---
+        targets = 'Engineering|Nursing|Tourism'
+        deep_dive = merged[merged['Study_Area'].str.contains(targets, na=False, case=False)]
 
-    merged[ 'Salary_Diff' ] = merged[ 'Salary_20' ] - merged[ 'Salary_18' ]
-    merged[ 'FTE_Diff' ] = (merged[ 'FTE_20' ] - merged[ 'FTE_18' ]).round(1)
+        print("\n--- RESULTS: SALARY VS EMPLOYABILITY (FTE%) ---")
+        if not deep_dive.empty:
+            print(deep_dive[['Study_Area', 'Salary_Diff', 'FTE_Diff']])
+        else:
+            print("⚠️ Targets not found. Check Excel names.")
+            print("First few areas found:", merged['Study_Area'].head().tolist())
 
-    # 4. Filter for your target comparison 
-    targets = [ 'Engineering', 'Nursing', 'Creative arts' ]
-    deep_dive = merged[merged[ 'Study_Area' ].str.contains( '|'.join(targets), na=False )]
+        # Final Save
+        merged.to_csv(output_path, index=False)
+        print(f"\n✅ SUCCESS!")
+        print(f"Results saved to: {output_path}")
 
-    print( "\n--- RESULTS: SALARY VS EMPLOYABILITY (FTE%) ---" )
-    print(deep_dive[[ 'Study_Area', 'Salary_Diff', "FTE_Diff" ]])
-
-    merged.to_csv("data/clean/final_pandemic_research_data.csv", index=False)
-    print( "\n✅ DATA READY! Use 'final_pandemic_research_data.csv' for your GitHub." )
+    except Exception as e:
+        print(f"❌ ERROR: {e}")
 
 if __name__ == "__main__":
-    run_final_academic_analysis()
-
-
+    run_final_academic_analysis()  
 
 
 

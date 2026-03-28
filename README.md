@@ -9,7 +9,7 @@ What was the effect of graduating during the COVID-19 economic downturn on the s
 * **code/**: Contains 'data_analysis.py' (the Python script used to transform and merge raw data). 
 * **data/raw/**: Contains the original QILT GOS Excel files for 2018 and 2020. 
 * **data/clean/**: Contains 'final_pandemic_research_data.csv' (the merged dataset ready for analysis). 
-* **requirements.txt.**: The list of libraries (pandas,openpyxl) needed to run this.
+* **requirements.txt**: The list of libraries (pandas,openpyxl) needed to run this.
 
 ## Software Information
 This project is written in **Python 3**. To run the code, I must have the following packages installed: 
@@ -25,7 +25,7 @@ cd ecc3479-project
 ```
 3. **Install dependencies**: Run 
 ```bash
-pip install -r requirements.txt.
+pip install -r requirements.txt
 ```
 4. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
 5. **Execute**: Run the script using the command: 
@@ -37,4 +37,4 @@ python3 code/data_analysis.py
 * **Salary_Diff**: The change in median salary between 2018 and 2020 ($).
 * **FTE_Diff**: The change in Full-Time Employment rate percentage points. 
 
-Note: The Script will automatically read from data/raw/ output the final processed results into the data/clean/ folder. 
+Note: The Script will automatically read from data/raw/output the final processed results into the data/clean/folder. 
