@@ -25,8 +25,14 @@ cd ecc3479-project
 ```
 3. **Install dependencies**: Run 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt 
 ```
+or 
+```bash 
+pip3 install -r requirements.txt 
+```
+depending on your setup. 
+
 4. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
 5. **Execute**: Run the script using the command: 
 ```bash
