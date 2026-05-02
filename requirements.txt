@@ -1,2 +1,5 @@
 pandas
-openpyxl 
+openpyxl
+matplotlib
+seaborn
+    (Remove any dots or extra text inside that specific file).
