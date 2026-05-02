@@ -3,8 +3,8 @@
 # Impact of COVID-19 on Australian Graduate Outcomes
 
 ### Group Members:
-• Nur Atikah Binti Mohamad Tajarimim - [36851825]
-• Madeeha Binti Muhamad Subki - [36856606]
+* Nur Atikah Binti Mohamad Tajarimim - [36851825]
+* Madeeha Binti Muhamad Subki - [36856606]
 
 ### Research Question
 What was the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018?
