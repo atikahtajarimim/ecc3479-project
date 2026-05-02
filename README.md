@@ -2,14 +2,33 @@
 
 # Impact of COVID-19 on Australian Graduate Outcomes
 
-## Research Question 
-What was the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018? 
+## Group Members:
+• Nur Atikah Binti Mohamad Tajarimim - [36851825]
+• Madeeha Binti Muhamad Subki - [36856606]
+
+## Research Question
+What was the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018?
 
 ## Repository Structure
-* **code/**: Contains 'data_analysis.py' (the Python script used to transform and merge raw data). 
-* **data/raw/**: Contains the original QILT GOS Excel files for 2018 and 2020. 
-* **data/clean/**: Contains 'final_pandemic_research_data.csv' (the merged dataset ready for analysis). 
-* **requirements.txt**: The list of libraries (pandas,openpyxl) needed to run this.
+• code/: Contains 'data_analysis.py' and 'eda_report.ipynb'.
+• data/raw/: Original QILT GOS Excel files.
+• data/clean/: 'final_pandemic_research_data.csv'.
+• requirements.txt: List of libraries needed (no trailing dots).
+
+## Data Codebook (Full Dataset)
+Column Name         Description                                 Units
+Study_Area          Academic field of study.                    Text
+Salary_18           Median starting salary in 2018.             AUD ($)
+Salary_20           Median starting salary in 2020.             AUD ($)
+Salary_18_Adj       2018 Salary adjusted to 2020 dollars.       AUD ($)
+Salary_Diff         Real change in salary (2020 - 2018_Adj).    AUD ($)
+FTE_18              Full-Time Employment rate (2018).           %
+FTE_20              Full-Time Employment rate (2020).           %
+FTE_Diff            Change in FTE rate (FTE_20 - FTE_18).       pp
+
+## Methodology
+1. Inflation Adjustment: 2018 salaries were adjusted to 2020 AUD using a cumulative CPI factor of 1.027 (approx. 2.7% over 2 years) to ensure a "real" comparison.
+2. Cleaning: Removed 'All study areas' and 'Standard deviation' rows.
 
 ## Software Information
 This project is written in **Python 3**. To run the code, I must have the following packages installed: 
@@ -17,30 +36,6 @@ This project is written in **Python 3**. To run the code, I must have the follow
 * 'openpyxl'
 
 ## How to run the Project
-Follow these steps to replicate the analysis:
-1. **Clone this repository** to your machine.
-2. Enter the Folder: 
-```bash
-cd ecc3479-project
-```
-3. **Install dependencies**: Run 
-```bash
-pip install -r requirements.txt 
-```
-or 
-```bash 
-pip3 install -r requirements.txt 
-```
-depending on your setup. 
-
-4. **Manual Step**: Ensure the raw Excel files are inside the 'data/raw/' folder.
-5. **Execute**: Run the script using the command: 
-```bash
-python3 code/data_analysis.py
-```
-## Data Codebook
-* **Study_Area**: Field of study (e.g., Engineering, Nursing).
-* **Salary_Diff**: The change in median salary between 2018 and 2020 ($).
-* **FTE_Diff**: The change in Full-Time Employment rate percentage points. 
-
-Note: The Script will automatically read from data/raw/output the final processed results into the data/clean/folder. 
+1. Clone: git clone https://github.com/atikahtajarimim/ecc3479-project.git
+2. Install: pip install -r requirements.txt
+3. Run: Open 'code/eda_report.ipynb' and select "Run All".
