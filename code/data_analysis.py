@@ -34,7 +34,7 @@ def load_and_standardize(file, possible_sheets, value_col, new_value_name):
     return df.dropna(subset=['Study_Area'])
 
 def run_final_academic_analysis():
-    print("--- Final Empirical Analysis: COVID-19 Impact ---")
+    print("--- Final Empirical Analysis: COVID-19 Impact (Inflation Adjusted) ---")
     os.makedirs("data/clean", exist_ok=True)
     output_path = "data/clean/final_pandemic_research_data.csv"
 
@@ -55,9 +55,15 @@ def run_final_academic_analysis():
         for next_df in dfs[1:]:
             merged = pd.merge(merged, next_df, on='Study_Area', how='inner')
 
-        # --- Calculations (Check if columns exist before calculating) ---
+        # --- Calculations Including Inflation (CPI 2018 to 2020 = 1.027) ---
         if all(col in merged.columns for col in ['Salary_20', 'Salary_18', 'FTE_20', 'FTE_18']):
-            merged['Salary_Diff'] = merged['Salary_20'] - merged['Salary_18']
+            # 1. Adjust 2018 salary to 2020 value
+            merged['Salary_18_Adj'] = (merged['Salary_18'] * 1.027).round(0)
+
+            # Calculate Real Salary Difference
+            merged['Salary_Diff'] = merged['Salary_20'] - merged['Salary_18_Adj']
+
+            # Calculate Employment Difference
             merged['FTE_Diff'] = (merged['FTE_20'] - merged['FTE_18']).round(1)
         else:
             raise KeyError(f"Missing columns for calculation. Found: {merged.columns.tolist()}")
@@ -68,7 +74,7 @@ def run_final_academic_analysis():
 
         print("\n--- RESULTS: SALARY VS EMPLOYABILITY (FTE%) ---")
         if not deep_dive.empty:
-            print(deep_dive[['Study_Area', 'Salary_Diff', 'FTE_Diff']])
+            print(deep_dive[['Study_Area', 'Salary_18_Adj', 'Salary_20', 'Salary_Diff', 'FTE_Diff']])
         else:
             print("⚠️ Targets not found. Check Excel names.")
             print("First few areas found:", merged['Study_Area'].head().tolist())
