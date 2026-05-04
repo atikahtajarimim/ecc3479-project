@@ -35,7 +35,7 @@ python3 -m venv .venv
 source .venv/bin/activate   # macOS/Linux
 # .venv\Scripts\activate    # Windows (PowerShell)
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt # pip install -r requirements.txt (depending on your setup)
 ```
 
 ### 3) Raw → clean (creates the analysis dataset)
@@ -47,7 +47,7 @@ python3 code/data_analysis.py
 Expected output file:
 - `data/clean/final_pandemic_research_data.csv`
 
-**Input requirement:** place the raw Excel inputs in `data/raw/` in the filenames/format expected by `code/data_analysis.py`.
+**Input requirement:** Place the raw Excel inputs in `data/raw/` in the filenames/format expected by `code/data_analysis.py`.
 
 ### 4) Clean → analysis → results (runs end-to-end)
 Open and run all cells in the primary analysis notebook:
