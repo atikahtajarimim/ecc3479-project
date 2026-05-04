@@ -71,6 +71,15 @@ Expected artifacts created in `results/` include:
 ### Notes (for markers / replication)
 - Paths in the notebook are **relative to the repository**, so it should run on any machine after Step 3.
 - If you get a “clean data file not found” error, run Step 3 first to generate `data/clean/final_pandemic_research_data.csv`.
+- If the notebook raises an error related to `tabulate`, install the missing dependency using:
+```bash 
+!pip install tabulate
+```
+or 
+```bash
+import sys
+!{sys.executable} -m pip install tabulate
+```
 
 ## Data codebook
 This table defines columns in `data/clean/final_pandemic_research_data.csv`.
