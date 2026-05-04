@@ -35,7 +35,7 @@ python3 -m venv .venv
 source .venv/bin/activate   # macOS/Linux
 # .venv\Scripts\activate    # Windows (PowerShell)
 
-pip3 install -r requirements.txt     # pip install -r requirements.txt (depending on your setup)
+pip3 install -r requirements.txt    # pip install -r requirements.txt (depending on your setup)
 ```
 
 ### 3) Raw → clean (creates the analysis dataset)
