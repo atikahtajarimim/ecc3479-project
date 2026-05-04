@@ -5,6 +5,7 @@
 Analysis of how graduating during the COVID-19 economic downturn affected:
 * median starting salaries, and
 * full-time employment (FTE) rates
+
 for Australian undergraduates in **2020** compared with **pre-pandemic (2018)** outcomes.
 
 ## Group Members
