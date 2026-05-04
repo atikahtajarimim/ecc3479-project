@@ -21,28 +21,56 @@ This project studies how graduate outcomes changed between 2018 and 2020 across 
 Python 3 with packages in `requirements.txt`.
 
 ## Reproducibility: full pipeline (raw → clean → analysis → results)
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/atikahtajarimim/ecc3479-project.git
-   cd ecc3479-project
-   ```
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 1) Clone the repository
+```bash
+git clone https://github.com/atikahtajarimim/ecc3479-project.git
+cd ecc3479-project
+```
 
-3. **Raw → clean** (produces `data/clean/final_pandemic_research_data.csv`)
-   ```bash
-   python3 code/data_analysis.py
-   ```
-   *Note:* Ensure the raw Excel files are placed in `data/raw/` as expected by the script.
+### 2) Create an environment and install dependencies
+Using `pip`:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate   # macOS/Linux
+# .venv\Scripts\activate    # Windows (PowerShell)
 
-4. **Clean → analysis → results**
-   Open the notebook and run all cells:
-   - `code/econometric_analysis.ipynb`
+pip install -r requirements.txt
+```
 
-   The notebook writes outputs to the `results/` directory (regression table + figures).
+### 3) Raw → clean (creates the analysis dataset)
+Run the cleaning script:
+```bash
+python3 code/data_analysis.py
+```
+
+Expected output file:
+- `data/clean/final_pandemic_research_data.csv`
+
+**Input requirement:** place the raw Excel inputs in `data/raw/` in the filenames/format expected by `code/data_analysis.py`.
+
+### 4) Clean → analysis → results (runs end-to-end)
+Open and run all cells in the primary analysis notebook:
+- `code/econometric_analysis.ipynb`
+
+The notebook reads:
+- `data/clean/final_pandemic_research_data.csv`
+
+and writes outputs to:
+- `results/`
+
+Expected artifacts created in `results/` include:
+- `table1_regression_results.csv`
+- `table1_regression_results.md`
+- `model_coefficients_hc3.csv`
+- `bootstrap_summary.csv`
+- `exhibit1_scatter_salary_delta_fte.png`
+- `exhibit2_qqplot_residuals.png`
+- `exhibit3_bootstrap_beta.png`
+
+### Notes (for markers / replication)
+- Paths in the notebook are **relative to the repository**, so it should run on any machine after Step 3.
+- If you get a “clean data file not found” error, run Step 3 first to generate `data/clean/final_pandemic_research_data.csv`.
 
 ## Data codebook
 This table defines columns in `data/clean/final_pandemic_research_data.csv`.

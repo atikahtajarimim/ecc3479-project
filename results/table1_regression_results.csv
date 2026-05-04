@@ -1,7 +1,8 @@
-,(1) ΔFTE on Salary_18 (HC3),
-Salary_18_k,-0.0459,(0.0868)
-const,-1.7393,(5.3791)
-N,21,
+,(1) ΔFTE on Salary (HC3),
+"Baseline salary (2018, $000 AUD)",-0.0459,(0.0868)
+Constant,-1.7393,(5.3791)
+Observations,21,
 R²,0.016,
-Dependent var.,"ΔFTE (2020–2018, pp)",
+Dependent var.,"ΔFTE (pp, 2020–2018)",
 SE type,HC3 robust,
+Notes,"* p<0.10, ** p<0.05, *** p<0.01",
