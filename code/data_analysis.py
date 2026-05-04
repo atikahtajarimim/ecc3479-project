@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import difflib
 import logging
+import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
+from typing import Sequence, Union
 
 import pandas as pd
 
@@ -41,15 +43,25 @@ def _repo_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
+def _normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Strip and collapse internal whitespace in all column names."""
+    df.columns = [re.sub(r"\s+", " ", str(c).strip()) for c in df.columns]
+    return df
+
+
 def load_and_standardize(
     file_path: Path,
     possible_sheets: Sequence[str],
-    value_col: str,
+    value_col: Union[str, Sequence[str]],
     new_value_name: str,
     *,
     skiprows: int = 1,
 ) -> pd.DataFrame:
-    """Load a sheet, standardize the first column as Study_Area, and coerce numeric values."""
+    """Load a sheet, standardize the first column as Study_Area, and coerce numeric values.
+
+    ``value_col`` may be a single column name or a list/tuple of acceptable
+    alternatives; the first match found in the sheet is used.
+    """
 
     if not file_path.exists():
         raise FileNotFoundError(f"Input file not found: {file_path}")
@@ -67,16 +79,39 @@ def load_and_standardize(
     if df.empty:
         raise ValueError(f"Loaded empty sheet '{target_sheet}' from {file_path}")
 
+    # Normalize column names so minor whitespace variations don't cause mismatches.
+    df = _normalize_columns(df)
+
+    # Resolve value_col: accept a single string or a list/tuple of candidates.
+    candidates: list[str] = [value_col] if isinstance(value_col, str) else list(value_col)
+    found_col = next((c for c in candidates if c in df.columns), None)
+
+    if found_col is None:
+        # Use all candidates as sources for close-match suggestions.
+        all_cols = df.columns.tolist()
+        close: list[str] = []
+        for cand in candidates:
+            close.extend(difflib.get_close_matches(cand, all_cols, n=3, cutoff=0.5))
+        # Deduplicate while preserving order.
+        seen: set[str] = set()
+        close = [c for c in close if not (c in seen or seen.add(c))]  # type: ignore[func-returns-value]
+        raise KeyError(
+            f"Could not find any of {candidates} in sheet '{target_sheet}' ({file_path}). "
+            f"Available columns: {all_cols}. "
+            f"Suggested close matches: {close}"
+        )
+
+    logger.info(
+        "Using column '%s' from sheet '%s' in %s",
+        found_col,
+        target_sheet,
+        file_path.name,
+    )
+
     # Force the first column to be 'Study_Area'
     first_col = df.columns[0]
 
-    if value_col not in df.columns:
-        raise KeyError(
-            f"Expected column '{value_col}' not found in sheet '{target_sheet}' ({file_path}). "
-            f"Columns found: {df.columns.tolist()}"
-        )
-
-    out = df[[first_col, value_col]].copy()
+    out = df[[first_col, found_col]].copy()
     out.columns = ["Study_Area", new_value_name]
 
     # Important: drop missing Study_Area BEFORE casting to str, otherwise NaN becomes "nan"
@@ -159,14 +194,22 @@ def run_final_academic_analysis(cfg: Config | None = None) -> Path:
     deep_dive = merged[merged["Study_Area"].str.contains(cfg.targets_regex, na=False, case=False)]
 
     logger.info("--- RESULTS: SALARY VS EMPLOYABILITY (FTE%%) ---")
+    cols = ["Study_Area", "Salary_18_Adj", "Salary_20", "Salary_Diff", "FTE_Diff"]
     if not deep_dive.empty:
-        print(deep_dive[["Study_Area", "Salary_18_Adj", "Salary_20", "Salary_Diff", "FTE_Diff"]])
+        preview = deep_dive[cols].head(20)
+        logger.info("Deep-dive preview (up to 20 rows):\n%s", preview.to_string(index=False))
     else:
         logger.warning("Targets not found. Check Excel naming.")
         logger.info("First few areas found: %s", merged["Study_Area"].head().tolist())
 
     merged.to_csv(output_path, index=False)
     logger.info("SUCCESS: Results saved to: %s", output_path.as_posix())
+
+    # Save the deep-dive filtered subset as a companion CSV.
+    targets_path = output_path.with_name(f"{output_path.stem}_targets{output_path.suffix}")
+    deep_dive.to_csv(targets_path, index=False)
+    logger.info("Deep-dive subset saved to: %s", targets_path.as_posix())
+
     return output_path
 
 
