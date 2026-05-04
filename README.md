@@ -6,14 +6,8 @@
 * **Nur Atikah Binti Mohamad Tajarimim** - [36851825]
 * **Madeeha Binti Subki** [36856606]
 
-## Research Question 
-What was the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018? 
-
-## Repository Structure
-* **code/**: Contains 'data_analysis.py' (the Python script used to transform and merge raw data). 
-* **data/raw/**: Contains the original QILT GOS Excel files for 2018 and 2020. 
-* **data/clean/**: Contains 'final_pandemic_research_data.csv' (the merged dataset ready for analysis). 
-* **requirements.txt**: The list of libraries (pandas,openpyxl) needed to run this.
+### Research Question
+What was the effect of graduating during the COVID-19 economic downturn on the starting salaries and full-time employment rates of fresh Australian undergraduates in 2020 compared to the pre-pandemic cohort of 2018?
 
 ## Software Information
 This project requires **Python 3** and the following libraries: 
