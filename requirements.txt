@@ -1,4 +1,6 @@
 pandas
-openpyxl 
+openpyxl
 matplotlib
 seaborn
+numpy
+statsmodels
