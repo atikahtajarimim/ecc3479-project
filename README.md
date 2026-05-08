@@ -68,6 +68,12 @@ Expected artifacts created in `results/` include:
 - `exhibit2_qqplot_residuals.png`
 - `exhibit3_bootstrap_beta.png`
 
+### 5) Robustness Analysis
+Run the robustness analysis notebook after generating the clean dataset: 
+- `code/robustness_analysis.ipynb`
+
+The notebook reproduces all robustness checks and robustness tables used in the report. 
+
 ### Notes (for markers / replication)
 - Paths in the notebook are **relative to the repository**, so it should run on any machine after Step 3.
 - If you get a “clean data file not found” error, run Step 3 first to generate `data/clean/final_pandemic_research_data.csv`.
@@ -97,4 +103,4 @@ This table defines columns in `data/clean/final_pandemic_research_data.csv`.
 ## Methodology (high level)
 1. **Data integration**: merge 2018 and 2020 QILT Graduate Outcomes Survey data.
 2. **Cleaning**: exclude aggregate rows and summary statistics rows.
-3. **Econometric analysis (descriptive)**: regress the change in FTE on baseline salary across study areas with robust (HC3) SEs and bootstrap sensitivity checks.
+3. **Econometric analysis (descriptive)**: regress the change in FTE on baseline salary across study areas using HC3 robust standard errors. Robustness checks include alternative functional forms, outlier sensitivity test, and subsample analysis excluding health-related disciplines.
