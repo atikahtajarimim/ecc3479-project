@@ -4,7 +4,7 @@
 
 ## Group Members
 - **Nur Atikah Binti Mohamad Tajarimim** - [36851825]
-- **Madeeha Binti Subki** - [36856606]
+- **Madeeha Binti Muhamad Subki** - [36856606]
 
 ## Research question (declared ambition: descriptive)
 This project studies how graduate outcomes changed between 2018 and 2020 across Australian undergraduate study areas.
@@ -49,7 +49,7 @@ Expected output file:
 
 **Input requirement:** Place the raw Excel inputs in `data/raw/` in the filenames/format expected by `code/data_analysis.py`.
 
-### 4) Clean → analysis → results (runs end-to-end) → robustness analysis
+### 4) Clean → analysis → results (runs end-to-end) 
 Open and run all cells in the primary analysis notebook:
 - `code/econometric_analysis.ipynb`
 
@@ -73,6 +73,20 @@ Run the robustness analysis notebook after generating the clean dataset:
 - `code/robustness_analysis.ipynb`
 
 The notebook reproduces all robustness checks and robustness tables used in the report. 
+
+## Replication Mapping (PDF Report Outputs)
+The following table maps each table and figure in the final PDF report to the code file that produces it.
+
+| Report Output | Produced By |
+| :--- | :--- |
+| Table 1 – Summary Statistics | `code/econometric_analysis.ipynb` |
+| Table 2 – Main Regression Results | `code/econometric_analysis.ipynb` |
+| Figure 1 – Scatter Plot of Baseline Salary and Changes in Full-Time Employment | `code/econometric_analysis.ipynb` |
+| Table 3 – Robustness Analysis | `code/robustness_analysis.ipynb` |
+
+Additional generated outputs:
+- Bootstrap confidence interval results: `code/econometric_analysis.ipynb`
+- Influence diagnostics (Cook’s D / leave-one-out sensitivity): `code/econometric_analysis.ipynb`
 
 ### Notes (for markers / replication)
 - Paths in the notebook are **relative to the repository**, so it should run on any machine after Step 3.
